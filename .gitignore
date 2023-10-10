@@ -118,7 +118,8 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
+diplomdj/
+diplomdj
 # Environments
 .env
 .venv
