@@ -8,3 +8,6 @@ class Basket(models.Model):
     product = models.ManyToManyField(Product, related_name='basket_product')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Basket user >>> {self.user} <<<'

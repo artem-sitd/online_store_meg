@@ -1,8 +1,10 @@
 from rest_framework import serializers
-from .models import Product
+from .models import Product, Reviews
 
-
-class ProductSerializer(serializers.ModelSerializer):
+# Инфо о всех отзывах конкретного продукта
+class ProductReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ('name', 'description', 'price', 'discount', 'created_at', 'created_by', 'category2')
+        model = Reviews
+        fields = '__all__'
+
+
