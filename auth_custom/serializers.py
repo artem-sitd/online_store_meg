@@ -6,12 +6,14 @@ from .models import Profile
 from django.contrib.auth.models import User
 
 
+# Инфо о всех профилях
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
 
 
+# Регистрация пользователя
 class SignUpSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True, max_length=50)
     username = serializers.CharField(required=True,
@@ -31,4 +33,6 @@ class SignUpSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         Profile.objects.create(user=user, fullName=validated_data['first_name'])
+
         return user
+

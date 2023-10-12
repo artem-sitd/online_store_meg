@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 def avatar(instance: 'Profile', filename) -> str:
     return 'avatars/avatar_{pk}/{filename}'.format(pk=instance.pk, filename=filename)
 
+
 # Профиль пользователя
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
