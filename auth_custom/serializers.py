@@ -13,7 +13,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# Регистрация пользователя
+# Регистрация пользователя sign-up
 class SignUpSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True, max_length=50)
     username = serializers.CharField(required=True,
@@ -35,4 +35,3 @@ class SignUpSerializer(serializers.ModelSerializer):
         Profile.objects.create(user=user, fullName=validated_data['first_name'])
 
         return user
-
