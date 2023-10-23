@@ -19,5 +19,4 @@ class ProductDetailReview(generics.ListAPIView):
     def get_queryset(self):
         self.list_review = Reviews.objects.filter(product_id=self.kwargs['pk'])
         return self.list_review
-
     serializer_class = ProductReviewSerializer
