@@ -20,6 +20,8 @@ class CategoryImage(models.Model):
     src = models.ImageField(upload_to=category_path)
     alt = models.CharField(max_length=200, null=False, blank=True)
 
+    def __str__(self):
+        return f'{self.alt}'
 
 """
 *********************************************** Пока не сделал ***********************************************
