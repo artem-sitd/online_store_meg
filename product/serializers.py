@@ -5,6 +5,6 @@ from .models import Product, Reviews
 class ProductReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reviews
-        fields = '__all__'
+        fields = ('author', 'email', 'text', 'rate', 'date')
 
 

@@ -43,6 +43,7 @@ class ProductImage(models.Model):
     src = models.ImageField(upload_to=product_path)
     alt = models.CharField(max_length=200, null=False, blank=True)
 
+
 class Specifications(models.Model):
     name = models.CharField(max_length=30)
     value = models.CharField(max_length=30)
@@ -58,7 +59,7 @@ class Reviews(models.Model):
     email = models.EmailField(max_length=50)
     rate = models.DecimalField(max_digits=2, decimal_places=1)  # оценка пользователя
     date = models.DateTimeField(auto_now_add=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='reviews')
 
     def __str__(self):
-        return f'{self.author}, {self.text[:50]}'
+        return f'{self.author}, {self.text[:50]}...'

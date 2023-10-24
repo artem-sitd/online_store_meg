@@ -13,7 +13,16 @@ class Profile(models.Model):
     fullName = models.CharField(max_length=20, blank=True, null=True)  # Имя
     phone = models.CharField(max_length=12, blank=True, null=True)  # Телефон
     email = models.EmailField(max_length=50)  # Почта
-    avatar = models.ImageField(null=True, blank=True, upload_to=avatar)
 
     def __str__(self):
         return f'User: {self.user}, Fullname: {self.fullName}'
+
+
+class Avatar(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='avatar', null=True, blank=True)
+    src = models.ImageField(null=True, blank=True, upload_to=avatar)
+    alt = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return f'src:{self.src}' \
+               f'alt:{self.alt}'
