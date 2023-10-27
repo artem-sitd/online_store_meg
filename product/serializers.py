@@ -42,11 +42,10 @@ class SpecificSerialize(serializers.ModelSerializer):
 
 # api/product/id
 class ProductDetailSerializer(serializers.ModelSerializer):
-    # reviews = ReviewsDetailSerializer(many=True)
     reviews = ProductReviewSerializer(many=True)
     images = ImagesSerializer(many=True)
     tags = TagsSerializer(many=True)
-    specifications = SpecificSerialize()
+    specifications = SpecificSerialize(many=True)
     price = serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
     rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
                                       validators=[MaxValueValidator(5.0)], coerce_to_string=False)

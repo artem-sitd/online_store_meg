@@ -23,8 +23,7 @@ class Product(models.Model):
     free_delivery = models.BooleanField(default=False)  # Бесплатная доставка
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=3.0,
                                  validators=[MaxValueValidator(5.0)])  # оценка
-    specifications = models.ForeignKey('Specifications', on_delete=models.CASCADE, blank=True,
-                                       null=True)
+    specifications = models.ManyToManyField('Specifications',  blank=True, null=True, related_name='specifications')
     tags = models.ManyToManyField(Tags, blank=True)
 
     def __str__(self):
