@@ -5,7 +5,7 @@ from .serializers import CategorySerializer, ProductSerializer
 from product.models import Product
 from rest_framework.response import Response
 
-
+# api/categories
 class CategoryListApi(ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
