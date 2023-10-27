@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from rest_framework import serializers
 from .models import Category, CategoryImage
 from product.models import Product, ProductImage, Reviews, Tags
@@ -16,19 +17,15 @@ class CategoryImageSerializer(serializers.ModelSerializer):
         model = CategoryImage
         fields = ('src', 'alt')
 
+
 # api/categories
 class CategorySerializer(serializers.ModelSerializer):
     image = CategoryImageSerializer
     subcategories = SubcategorySerialize()
+
     class Meta:
         model = Category
         fields = ('id', 'title', 'image', 'subcategories')
-
-# ProductSerializer
-class ReviewsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Reviews
-        fields = ('author',)
 
 
 # ProductSerializer
@@ -45,16 +42,25 @@ class TagsSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+# ProductSerializer (кол-во отзывов)
+class ReviewsSerializer2(serializers.Field):
+    def get_attribute(self, instance):
+        return instance
+
+    def to_representation(self, instance):
+        temp = Reviews.objects.filter(product=instance.id)
+        return len(temp)
+
+
 # api/catalog
 class ProductSerializer(serializers.ModelSerializer):
-    reviews = ReviewsSerializer(many=True)
+    reviews = ReviewsSerializer2()
     images = ImagesSerializer(many=True)
     tags = TagsSerializer(many=True)
-
+    price=serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
+                                 validators=[MaxValueValidator(5.0)], coerce_to_string=False)
     class Meta:
         model = Product
         fields = ('id', 'category', 'price', 'count', 'date', 'title', 'description',
-                  'fullDescription', 'images', 'free_delivery', 'tags', 'reviews', 'rating',)
-
-
-
+                  'free_delivery', 'images',  'tags', 'reviews', 'rating',)

@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from catalog.models import Category
 from django.contrib.auth.models import User
 from tags.models import Tags
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Модель товаров
@@ -28,7 +28,7 @@ class Product(models.Model):
     tags = models.ManyToManyField(Tags, blank=True)
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.title}, id={self.id}'
 
     # def get_absolute_url(self):
     #     return reverse('shop:products_detail', kwargs={'pk':self.pk})
@@ -57,7 +57,7 @@ class Reviews(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=2000)
     email = models.EmailField(max_length=50)
-    rate = models.DecimalField(max_digits=2, decimal_places=1)  # оценка пользователя
+    rate = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], default=1)  # оценка пользователя
     date = models.DateTimeField(auto_now_add=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='reviews')
 

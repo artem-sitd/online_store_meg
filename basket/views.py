@@ -1,9 +1,12 @@
+from rest_framework.viewsets import ModelViewSet
+
+from product.models import Product
 from .serializers import BasketSerializer
 from .models import Basket
 from rest_framework.generics import ListCreateAPIView, DestroyAPIView, get_object_or_404
 
 
-class BasketListApi(ListCreateAPIView, DestroyAPIView):
+class BasketApi(ListCreateAPIView, DestroyAPIView):
     queryset = Basket.objects.all()
     serializer_class = BasketSerializer
 

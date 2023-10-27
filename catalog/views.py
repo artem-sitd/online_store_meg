@@ -1,9 +1,9 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
-from django.core.paginator import Paginator
 from .models import Category
 from .serializers import CategorySerializer, ProductSerializer
 from product.models import Product
+from rest_framework.response import Response
 
 
 class CategoryListApi(ListAPIView):
@@ -16,10 +16,23 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+    # def get_page_number(self, request, paginator):
+    #     page_number = request.query_params.get(self.page_query_param, 1)
+    #     print(page_number)
+    #     if page_number in self.last_page_strings:
+    #         page_number = paginator.num_pages
+    #     return page_number
+
+    def get_paginated_response(self, data):
+        return Response({
+            'items': data,
+            'currentPage': int(self.get_page_number(self.request, self.page_size)),
+            'lastPage': self.page.paginator.num_pages
+        })
+
 
 # Все продукты с использованием сериализатора
 class ProductApiView(ListAPIView):
     pagination_class = StandardResultsSetPagination
     queryset = Product.objects.all().order_by('-id')
     serializer_class = ProductSerializer
-

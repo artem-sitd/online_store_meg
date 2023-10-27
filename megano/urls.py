@@ -25,7 +25,10 @@ urlpatterns = [
     path('api/', include('catalog.urls')),
     path('api/', include('tags.urls')),
     path('api/', include('basket.urls')),
-    path('api/', include('auth_custom.urls'))
+    path('api/', include('auth_custom.urls')),
+    path('api/', include('order.urls')),
+    path('api', include('payment.urls')),
+
 
 ]
 if settings.DEBUG:
