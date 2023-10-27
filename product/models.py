@@ -42,6 +42,8 @@ class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     src = models.ImageField(upload_to=product_path)
     alt = models.CharField(max_length=200, null=False, blank=True)
+    def __str__(self):
+        return f'Images: {self.product}'
 
 
 class Specifications(models.Model):
@@ -62,4 +64,4 @@ class Reviews(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='reviews')
 
     def __str__(self):
-        return f'{self.author}, {self.text[:50]}...'
+        return f'{self.product}, Author: {self.author}'

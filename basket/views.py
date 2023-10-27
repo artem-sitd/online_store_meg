@@ -1,9 +1,6 @@
-from rest_framework.viewsets import ModelViewSet
-
-from product.models import Product
 from .serializers import BasketSerializer
 from .models import Basket
-from rest_framework.generics import ListCreateAPIView, DestroyAPIView, get_object_or_404
+from rest_framework.generics import ListCreateAPIView, DestroyAPIView
 
 
 class BasketApi(ListCreateAPIView, DestroyAPIView):
@@ -11,8 +8,8 @@ class BasketApi(ListCreateAPIView, DestroyAPIView):
     serializer_class = BasketSerializer
 
     # Получение списка продуктов в корзине
-    def get_object(self):
-        return get_object_or_404(Basket, user=self.request.user)
+    # def get_object(self):
+    #     return get_object_or_404(Basket, user=self.request.user)
 
     # Добавление продукта в корзину
     def post(self, request, *args, **kwargs):

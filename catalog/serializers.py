@@ -1,5 +1,8 @@
+import pytz
 from django.core.validators import MaxValueValidator
 from rest_framework import serializers
+from rest_framework.fields import SerializerMethodField
+
 from .models import Category, CategoryImage
 from product.models import Product, ProductImage, Reviews, Tags
 
@@ -43,7 +46,7 @@ class TagsSerializer(serializers.ModelSerializer):
 
 
 # ProductSerializer (кол-во отзывов)
-class ReviewsSerializer2(serializers.Field):
+class ReviewsSerializer(serializers.Field):
     def get_attribute(self, instance):
         return instance
 
@@ -54,13 +57,18 @@ class ReviewsSerializer2(serializers.Field):
 
 # api/catalog
 class ProductSerializer(serializers.ModelSerializer):
-    reviews = ReviewsSerializer2()
+    reviews = ReviewsSerializer()
     images = ImagesSerializer(many=True)
     tags = TagsSerializer(many=True)
     price=serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
     rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
                                  validators=[MaxValueValidator(5.0)], coerce_to_string=False)
+    date=SerializerMethodField()
     class Meta:
         model = Product
         fields = ('id', 'category', 'price', 'count', 'date', 'title', 'description',
                   'free_delivery', 'images',  'tags', 'reviews', 'rating',)
+
+    def get_date(self, obj):
+        temp=obj.date.astimezone(pytz.timezone('CET'))
+        return temp.strftime('%a %b %d %Y %H:%M:%S')+' GMT+0100 (Central European Standard Time)'

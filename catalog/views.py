@@ -16,13 +16,6 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
-    # def get_page_number(self, request, paginator):
-    #     page_number = request.query_params.get(self.page_query_param, 1)
-    #     print(page_number)
-    #     if page_number in self.last_page_strings:
-    #         page_number = paginator.num_pages
-    #     return page_number
-
     def get_paginated_response(self, data):
         return Response({
             'items': data,

@@ -26,18 +26,6 @@ class ImagesSerializer(serializers.ModelSerializer):
         fields = ('src', 'alt')
 
 
-# api/product/id/reviews
-class ReviewsDetailSerializer(serializers.ModelSerializer):
-    author = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Reviews
-        fields = ('author', 'email', 'text', 'rate', 'date')
-
-    def get_author(self, obj):
-        return obj.author.username
-
-
 # ProductDetailSerializer
 class TagsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,7 +42,8 @@ class SpecificSerialize(serializers.ModelSerializer):
 
 # api/product/id
 class ProductDetailSerializer(serializers.ModelSerializer):
-    reviews = ReviewsDetailSerializer(many=True)
+    # reviews = ReviewsDetailSerializer(many=True)
+    reviews = ProductReviewSerializer(many=True)
     images = ImagesSerializer(many=True)
     tags = TagsSerializer(many=True)
     specifications = SpecificSerialize()

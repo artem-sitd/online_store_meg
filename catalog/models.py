@@ -12,7 +12,7 @@ class Category(models.Model):
                                       blank=True, null=True, verbose_name='Категория')
 
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.title} ID = {self.id}'
 
 # Картинки категорий
 class CategoryImage(models.Model):
@@ -21,7 +21,7 @@ class CategoryImage(models.Model):
     alt = models.CharField(max_length=200, null=False, blank=True)
 
     def __str__(self):
-        return f'{self.alt}'
+        return f'Image category:>>>  {self.category}'
 
 """
 *********************************************** Пока не сделал ***********************************************
