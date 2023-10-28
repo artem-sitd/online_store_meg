@@ -52,6 +52,7 @@ class ProductSerializer(serializers.ModelSerializer):
 # api/Basket
 class BasketSerializer(serializers.ModelSerializer):
     product = ProductSerializer(many=True)
+
     class Meta:
         model = Basket
         fields = ['product']

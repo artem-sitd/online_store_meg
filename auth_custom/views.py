@@ -1,12 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.urls import reverse_lazy
 from rest_framework import generics, status, exceptions
 from rest_framework.generics import RetrieveUpdateAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.utils import json
 from django.contrib.auth.models import User
-
-from .serializers import ProfileSerializer, SignUpSerializer
+from .serializers import ProfileSerializer, SignUpSerializer, CheckPasswordSerialize
 from .models import Profile, Avatar
 from django.contrib.auth import logout, login, authenticate
 from rest_framework.response import Response
@@ -14,10 +12,9 @@ from rest_framework.views import APIView
 from ast import literal_eval
 
 
-# Все профили пользователей
+# Профиль
 class ProfileApiView(RetrieveUpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
     permission_classes = [IsAuthenticated]
-    success_url = reverse_lazy('auth_custom:profile')
     serializer_class = ProfileSerializer
 
     def test_func(self):
@@ -26,8 +23,25 @@ class ProfileApiView(RetrieveUpdateAPIView, LoginRequiredMixin, UserPassesTestMi
     def get_object(self):
         return get_object_or_404(Profile, user=self.request.user)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+
+# Смена пароля
+class ChangePasswordApiView(APIView):
+    def post(self, request):
+        seriazlizer = CheckPasswordSerialize(instance=request.user, data=request.data)
+        if seriazlizer.is_valid(raise_exception=True):
+            seriazlizer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        # Вот этот вот не работает
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+class ChangeAvatar(APIView):
+    def post(self, request):
+        new_avatar = request.FILES["avatar"]
+        profile = Profile.objects.filter(user=request.user.id)
+        avatar_profile = Avatar.objects.filter(profile=profile)
+        print(profile)
 
 
 # Регистрация пользователя api/sign-up
