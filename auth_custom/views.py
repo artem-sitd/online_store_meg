@@ -35,13 +35,13 @@ class ChangePasswordApiView(APIView):
         # Вот этот вот не работает
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-
+#смена аватарки (арботает только если аватар не установлен)
 class ChangeAvatar(APIView):
     def post(self, request):
         new_avatar = request.FILES["avatar"]
-        profile = Profile.objects.filter(user=request.user.id)
-        avatar_profile = Avatar.objects.filter(profile=profile)
-        print(profile)
+        profile = Profile.objects.get(user=request.user.id)
+        avatar_profile = Avatar.objects.create(profile_id=profile.id, src=new_avatar, alt='ddd')
+        return Response(status=status.HTTP_200_OK)
 
 
 # Регистрация пользователя api/sign-up
