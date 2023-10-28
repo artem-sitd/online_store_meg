@@ -3,7 +3,7 @@ info:
   title: Swagger Diploma Project
   version: 1.0.0
 tags:
-  - name: auth
+  - name: auth(done)
   - name: catalog
   - name: basket
   - name: order
