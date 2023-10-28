@@ -14,7 +14,7 @@ paths:
   /sign-in:
     post:
       tags:
-        - auth(DONE)
+        - auth
       description: 'sign in'
       parameters:
         - name: username
