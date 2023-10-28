@@ -23,6 +23,18 @@ class ProfileApiView(RetrieveUpdateAPIView, LoginRequiredMixin, UserPassesTestMi
     def get_object(self):
         return get_object_or_404(Profile, user=self.request.user)
 
+    def post(self, request):
+        profile = Profile.objects.get(user=request.user.id)
+        email = request.data['email']
+        phone = request.data['phone']
+        fullname = request.data['fullName']
+        profile.email=email
+        profile.phone=phone
+        profile.fullName=fullname
+        profile.save()
+        print(profile)
+        return Response(status=status.HTTP_200_OK)
+
 
 # Смена пароля
 class ChangePasswordApiView(APIView):
@@ -35,7 +47,8 @@ class ChangePasswordApiView(APIView):
         # Вот этот вот не работает
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-#смена аватарки (арботает только если аватар не установлен)
+
+# смена аватарки (арботает только если аватар не установлен)
 class ChangeAvatar(APIView):
     def post(self, request):
         new_avatar = request.FILES["avatar"]

@@ -3,7 +3,7 @@ from .views import ProfileApiView, SignUpApiView, SignOutApiView, SignInApiView,
     ChangeAvatar
 
 
-urlpatterns = [path('profile/', ProfileApiView.as_view(), name='profile'),
+urlpatterns = [path('profile', ProfileApiView.as_view(), name='profile'),
                path('profile/password', ChangePasswordApiView.as_view(), name='change_password'),
                path('profile/avatar', ChangeAvatar.as_view(), name='change_avatar'),
                path('sign-up', SignUpApiView.as_view(), name='sign-up'),
