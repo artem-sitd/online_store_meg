@@ -41,14 +41,17 @@ class ProductSerializer(serializers.ModelSerializer):
     rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
                                       validators=[MaxValueValidator(5.0)], coerce_to_string=False)
     date = SerializerMethodField()
+
     class Meta:
         model = Product
-        fields = ('id', 'category', 'price', 'count', 'date', 'title', 'description', 'free_delivery',
+        fields = ('id',  'price', 'count', 'date', 'title', 'description', 'free_delivery',
                   'images', 'tags', 'reviews', 'rating')
 
     def get_date(self, obj):
         temp = obj.date.astimezone(pytz.timezone('CET'))
         return temp.strftime('%a %b %d %Y %H:%M:%S') + ' GMT+0100 (Central European Standard Time)'
+
+
 # api/Basket
 class BasketSerializer(serializers.ModelSerializer):
     product = ProductSerializer(many=True)
@@ -56,4 +59,3 @@ class BasketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Basket
         fields = ['product']
-

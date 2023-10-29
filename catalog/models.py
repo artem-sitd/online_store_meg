@@ -8,20 +8,20 @@ def category_path(instance: 'CategoryImage', filename: str):
 # Категории
 class Category(models.Model):
     title = models.CharField(max_length=40)
-    subcategories = models.ForeignKey('self', on_delete=models.CASCADE,
-                                      blank=True, null=True, verbose_name='Категория')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE,
+                                      blank=True, null=True, verbose_name='Родитель')
 
     def __str__(self):
         return f'{self.title} ID = {self.id}'
 
 # Картинки категорий
 class CategoryImage(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='image')
+    category = models.OneToOneField(Category, on_delete=models.CASCADE, related_name='image')
     src = models.ImageField(upload_to=category_path)
     alt = models.CharField(max_length=200, null=False, blank=True)
 
-    # def __str__(self):
-    #     return f'Image category:>>>  {self.category}'
+    def __str__(self):
+        return f'Image category:>>>  {self.category}'
 
 """
 *********************************************** Пока не сделал ***********************************************

@@ -7,9 +7,10 @@ from rest_framework.response import Response
 
 # api/categories
 class CategoryListApi(ListAPIView):
-    queryset = Category.objects.all()
     serializer_class = CategorySerializer
-
+    def get_queryset(self):
+        parent= Category.objects.filter(parent_id=None)
+        return parent
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
