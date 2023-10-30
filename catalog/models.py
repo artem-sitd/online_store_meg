@@ -9,7 +9,7 @@ def category_path(instance: 'CategoryImage', filename: str):
 class Category(models.Model):
     title = models.CharField(max_length=40)
     parent = models.ForeignKey('self', on_delete=models.CASCADE,
-                                      blank=True, null=True, verbose_name='Родитель')
+                                      blank=True, null=True, verbose_name='Родитель', related_name='subcategories')
 
     def __str__(self):
         return f'{self.title} ID = {self.id}'

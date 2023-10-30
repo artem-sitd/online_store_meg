@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.relations import PrimaryKeyRelatedField
-
+from rest_framework_recursive.fields import RecursiveField
 from .models import Category, CategoryImage
 from product.models import Product, ProductImage, Reviews, Tags
 
@@ -16,41 +16,30 @@ class CategoryImageSerializer(serializers.ModelSerializer):
         fields = ('src', 'alt')
 
 
-# CategorySerializer
-class ParentSerialize(serializers.ModelSerializer):
-    image = CategoryImageSerializer()
-
-    class Meta:
-        model = Category
-        fields = ('id', 'title', 'image')
-
-
-# проверка
-class SubcategorySerialize(serializers.Field):
-    def get_attribute(self, instance):
-        sub = Category.objects.filter(parent=instance)
-        return sub
-
-    def to_representation(self, value):
-        list_value = []
-        for subcategory in value:
-            temp = {}
-            temp['id'] = subcategory.id
-            temp['title'] = subcategory.title
-            try:
-                image = CategoryImage.objects.get(category=temp['id'])
-                temp['image'] = {'src': str(image.src), 'alt': image.alt}
-            except ObjectDoesNotExist:
-                temp['image'] = None
-
-            list_value.append(temp)
-        return list_value
+# CategorySerializer (первый вариант реализации)
+# class SubcategorySerialize(serializers.Field):
+#     def get_attribute(self, instance):
+#         sub = Category.objects.filter(parent=instance)
+#         return sub
+#
+#     def to_representation(self, value):
+#         list_value = []
+#         for subcategory in value:
+#             temp = {'id': subcategory.id, 'title': subcategory.title}
+#             try:
+#                 image = CategoryImage.objects.get(category=temp['id'])
+#                 temp['image'] = {'src': str(image.src), 'alt': image.alt}
+#             except ObjectDoesNotExist:
+#                 temp['image'] = None
+#             list_value.append(temp)
+#         return list_value
 
 
 # api/categories
 class CategorySerializer(serializers.ModelSerializer):
     image = CategoryImageSerializer()
-    subcategories = SubcategorySerialize()
+    # subcategories = SubcategorySerialize()
+    subcategories = RecursiveField(many=True)
 
     class Meta:
         model = Category
