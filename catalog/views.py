@@ -9,19 +9,19 @@ from rest_framework.request import Request
 
 
 # api/categories (первый вариант)
-# class CategoryListApi(ListAPIView):
-#     serializer_class = CategorySerializer
-#
-#     def get_queryset(self):
-#         parent = Category.objects.filter(parent_id=None)
-#         return parent
+class CategoryListApi(ListAPIView):
+    serializer_class = CategorySerializer
+
+    def get_queryset(self):
+        parent = Category.objects.filter(parent_id=None)
+        return parent
 
 
-class CategoryListApi(APIView):
-    def get(self, request:Request):
-        q_data = Category.objects.filter(parent_id=None)
-        serialized = CategorySerializer(q_data, many=True)
-        return Response(data=serialized.data, status=200)
+# class CategoryListApi(APIView):
+#     def get(self, request:Request):
+#         q_data = Category.objects.filter(parent_id=None)
+#         serialized = CategorySerializer(q_data, many=True)
+#         return Response(data=serialized.data, status=200)
 
 
 class StandardResultsSetPagination(PageNumberPagination):

@@ -84,7 +84,7 @@ class BasketSerializer2(serializers.Serializer):
                              '%a %b %d %Y %H:%M:%S') + ' GMT+0100 (Central European Standard Time)',
                          'title': instance.title, 'description': instance.description,
                          'free_delivery': instance.free_delivery,
-                         'images': [{'src': str(image.src), 'alt': image.alt}],
+                         'images': [{'src': image.src.url, 'alt': image.alt}],
                          'tags': [{'id': j.id, 'name': j.name} for j in tags],
                          'reviews': len(len_review),
                          'rating': instance.rating},

@@ -17,29 +17,29 @@ class CategoryImageSerializer(serializers.ModelSerializer):
 
 
 # CategorySerializer (первый вариант реализации)
-# class SubcategorySerialize(serializers.Field):
-#     def get_attribute(self, instance):
-#         sub = Category.objects.filter(parent=instance)
-#         return sub
-#
-#     def to_representation(self, value):
-#         list_value = []
-#         for subcategory in value:
-#             temp = {'id': subcategory.id, 'title': subcategory.title}
-#             try:
-#                 image = CategoryImage.objects.get(category=temp['id'])
-#                 temp['image'] = {'src': str(image.src), 'alt': image.alt}
-#             except ObjectDoesNotExist:
-#                 temp['image'] = None
-#             list_value.append(temp)
-#         return list_value
+class SubcategorySerialize(serializers.Field):
+    def get_attribute(self, instance):
+        sub = Category.objects.filter(parent=instance)
+        return sub
+
+    def to_representation(self, value):
+        list_value = []
+        for subcategory in value:
+            temp = {'id': subcategory.id, 'title': subcategory.title}
+            try:
+                image = CategoryImage.objects.get(category=temp['id'])
+                temp['image'] = {'src': image.src.url, 'alt': image.alt}
+            except ObjectDoesNotExist:
+                temp['image'] = None
+            list_value.append(temp)
+        return list_value
 
 
 # api/categories
 class CategorySerializer(serializers.ModelSerializer):
     image = CategoryImageSerializer()
-    # subcategories = SubcategorySerialize()
-    subcategories = RecursiveField(many=True)
+    subcategories = SubcategorySerialize()
+#     subcategories = RecursiveField(many=True)
 
     class Meta:
         model = Category
