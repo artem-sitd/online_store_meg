@@ -1,4 +1,4 @@
-from .serializers import BasketSerializer, BasketSerializer2
+from .serializers import BasketSerializer2
 from .models import Basket
 from rest_framework.generics import ListCreateAPIView, DestroyAPIView
 from rest_framework.views import APIView
@@ -27,3 +27,6 @@ class BasketApi(APIView):
         basket = Basket.objects.all().prefetch_related('product').get(user=request.user.id).product.all()
         serialized = BasketSerializer2(basket, many=True)
         return Response(data=serialized.data, status=200)
+
+    def post(self):
+        pass
