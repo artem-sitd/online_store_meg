@@ -3,6 +3,8 @@ from django.core.validators import MaxValueValidator
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from rest_framework.response import Response
+
+from catalog.models import Category
 from tags.models import Tags
 from .models import Basket
 from product.models import Product, Reviews, ProductImage
@@ -33,32 +35,36 @@ class TagsSerializer(serializers.ModelSerializer):
 
 
 # для BasketSerializer*******************************************************************************
-# class ProductSerializer(serializers.ModelSerializer):
-#     price = serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
-#     reviews = ReviewsSerializer()
-#     images = ImagesSerializer(many=True)
-#     tags = TagsSerializer(many=True)
-#     rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
-#                                       validators=[MaxValueValidator(5.0)], coerce_to_string=False)
-#     date = SerializerMethodField()
-#
-#     class Meta:
-#         model = Product
-#         fields = ('id', 'price', 'count', 'date', 'title', 'description', 'free_delivery',
-#                   'images', 'tags', 'reviews', 'rating')
-#
-#     def get_date(self, obj):
-#         temp = obj.date.astimezone(pytz.timezone('CET'))
-#         return temp.strftime('%a %b %d %Y %H:%M:%S') + ' GMT+0100 (Central European Standard Time)'
+class ProductSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
+    reviews = ReviewsSerializer()
+    images = ImagesSerializer(many=True)
+    tags = TagsSerializer(many=True)
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
+                                      validators=[MaxValueValidator(5.0)], coerce_to_string=False)
+    date = SerializerMethodField()
+
+    class Meta:
+        model = Product
+        fields = ('id', 'price', 'count', 'date', 'title', 'description', 'free_delivery',
+                  'images', 'tags', 'reviews', 'rating')
+
+    def get_date(self, obj):
+        temp = obj.date.astimezone(pytz.timezone('CET'))
+        return temp.strftime('%a %b %d %Y %H:%M:%S') + ' GMT+0100 (Central European Standard Time)'
 
 
 # api/Basket
-# class BasketSerializer(serializers.ModelSerializer):
-#     product = ProductSerializer(many=True)
-#
-#     class Meta:
-#         model = Basket
-#         fields = ['product']
+class BasketSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(many=True)
+
+    class Meta:
+        model = Basket
+        fields = ['product']
+
+    def to_representation(self, instance):
+        print(instance.product.all())
+        return super().to_representation(instance)['product']
 
 # api/Basket (рабочий)
 class BasketSerializer2(serializers.Serializer):
@@ -92,3 +98,28 @@ class BasketSerializer2(serializers.Serializer):
                         'reviews': len(len_review),
                         'rating': instance.rating}
         return list_product
+
+
+class TestSerializer(serializers.ModelSerializer):
+    category = SerializerMethodField()
+    price = serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
+    date = SerializerMethodField()
+    images = ImagesSerializer(many=True)
+    tags = TagsSerializer(many=True)
+    reviews = ReviewsSerializer()
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1, default=3.0,
+                                      validators=[MaxValueValidator(5.0)], coerce_to_string=False)
+    freeDelivery = SerializerMethodField()
+    def get_freeDelivery(self, obj):
+        return f'{obj.free_delivery}'
+    def get_date(self, obj):
+        temp = obj.date.astimezone(pytz.timezone('CET'))
+        return temp.strftime('%a %b %d %Y %H:%M:%S') + ' GMT+0100 (Central European Standard Time)'
+
+    def get_category(self, obj):
+        return obj.category.title
+
+    class Meta:
+        model = Product
+        fields = ('id', 'category', 'price', 'count', 'date', 'title', 'description',
+                  'freeDelivery', 'images', 'tags', 'reviews', 'rating')
