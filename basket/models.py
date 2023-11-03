@@ -15,7 +15,7 @@ class Basket(models.Model):
         return f'Basket user >>> {self.user} <<<'
 
 
-# После теста удалить*********************************************************************
+# Вторая версия корзины*********************************************************************
 class TestBasket(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     def __str__(self):
