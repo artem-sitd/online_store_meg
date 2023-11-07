@@ -1,3 +1,7 @@
-from django.urls import path, include
+from django.urls import path
+from .views import OrdersApiView, OrdersDetailApiView
 
-urlpatterns= []
+urlpatterns = [path('orders', OrdersApiView.as_view()),
+               path('order/<int:id>', OrdersDetailApiView.as_view()),
+
+               ]

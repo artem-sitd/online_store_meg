@@ -124,7 +124,7 @@ class BasketApi3Serialize(serializers.ModelSerializer):
                   'freeDelivery', 'images', 'tags', 'reviews', 'rating')
 
 # Для 41 строки во view
-class BasketApi3Serialize(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ('id')
+# class BasketApi3Serialize(serializers.ModelSerializer):
+#     class Meta:
+#         model = Product
+#         fields = ('id',)

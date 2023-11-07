@@ -11,8 +11,8 @@ def avatar(instance: 'Profile', filename) -> str:
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fullName = models.CharField(max_length=20, blank=True, null=True)  # Имя
-    phone = models.CharField(max_length=12, blank=True, null=True)  # Телефон
-    email = models.EmailField(max_length=50)  # Почта
+    phone = models.CharField(max_length=12, blank=True, null=True, default='+0123456789')  # Телефон
+    email = models.EmailField(max_length=50, default='example@mail.com')  # Почта
 
     def __str__(self):
         return f'User: {self.user}, Fullname: {self.fullName}'
