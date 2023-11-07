@@ -6,7 +6,7 @@ from .serializers import CategorySerializer, ProductSerializer
 from product.models import Product
 from rest_framework.response import Response
 from rest_framework.request import Request
-
+import random
 
 # api/categories (первый вариант)
 class CategoryListApi(ListAPIView):
@@ -42,3 +42,18 @@ class ProductApiView(ListAPIView):
     pagination_class = StandardResultsSetPagination
     queryset = Product.objects.all().order_by('-id')
     serializer_class = ProductSerializer
+
+
+class LimitedProductsApiView(APIView):
+    def get(self, request):
+        data = Product.objects.filter(limited=True)
+        serialized = ProductSerializer(data, many=True)
+        return Response(serialized.data, status=200)
+
+
+class BannersApiView(APIView):
+    def get(self, request):
+        data=random.sample(list(Product.objects.all()), 3)
+        print(data)
+        serialized=ProductSerializer(data, many=True)
+        return Response(serialized.data, status=200)

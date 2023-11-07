@@ -23,8 +23,9 @@ class Product(models.Model):
     free_delivery = models.BooleanField(default=False)  # Бесплатная доставка
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=3.0,
                                  validators=[MaxValueValidator(5.0)])  # оценка
-    specifications = models.ManyToManyField('Specifications',  blank=True, null=True, related_name='specifications')
-    tags = models.ManyToManyField(Tags, blank=True)
+    specifications = models.ManyToManyField('Specifications', blank=True, null=True, related_name='specifications')
+    tags = models.ManyToManyField(Tags, blank=True),
+    limited = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.title}, id={self.id}'
@@ -41,6 +42,7 @@ class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     src = models.ImageField(upload_to=product_path)
     alt = models.CharField(max_length=200, null=False, blank=True)
+
     def __str__(self):
         return f'Images: {self.product}'
 
@@ -58,7 +60,8 @@ class Reviews(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.CharField(max_length=2000)
     email = models.EmailField(max_length=50)
-    rate = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)], default=1)  # оценка пользователя
+    rate = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(1)],
+                               default=1)  # оценка пользователя
     date = models.DateTimeField(auto_now_add=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='reviews')
 
