@@ -33,8 +33,19 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 class ProductApiView(ListAPIView):
     pagination_class = StandardResultsSetPagination
-    queryset = Product.objects.all().order_by('-id')
     serializer_class = ProductSerializer
+
+        # Для сортировок на странице каталога, но оно не меняет на странице
+    def get_queryset(self):
+        if self.request.query_params['sort']=='reviews':
+            data=(Product.objects.get(id=i[0]) for i in
+                  sorted(dict(Counter(Reviews.objects.prefetch_related('product')
+                                      .all().values_list('product', flat=True))).items(),
+                         key=lambda x: x[1], reverse=True))
+            data=[i for i in data]
+            return data
+        queryset = Product.objects.all().order_by(self.request.query_params['sort'])
+        return queryset
 
 
 class LimitedProductsApiView(APIView):
