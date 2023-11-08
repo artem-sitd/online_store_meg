@@ -1,20 +1,20 @@
 from product.models import Product
 from .serializers import BasketApiSerialize
-from .models import ItemBasket, TestBasket
+from .models import ItemBasket, Basket
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
 class BasketApi(APIView):
     def get(self, request):
-        user_cart = TestBasket.objects.get(user=request.user.id)  # Определяем корзину с привязкой к юзеру >>> pwd123
+        user_cart = Basket.objects.get(user=request.user)  # Определяем корзину с привязкой к юзеру >>> pwd123
         qs = ItemBasket.objects.prefetch_related('product').filter(cart_id=user_cart.id)
         serialized2 = BasketApiSerialize(qs, many=True)
         return Response(data=serialized2.data, status=200)
 
     # Добавление продукта
     def post(self, request):
-        user_cart = TestBasket.objects.get(user=request.user.id)
+        user_cart = Basket.objects.get(user=request.user.id)
         product = Product.objects.get(id=request.data['id'])
         items_in_basket = ItemBasket.objects.prefetch_related('product').filter(cart=user_cart.id)
         if items_in_basket.filter(product__id=request.data['id']).exists():
@@ -31,7 +31,7 @@ class BasketApi(APIView):
 
     # Удаление продукта из корзины
     def delete(self, request):
-        user_cart = TestBasket.objects.get(user=request.user.id)
+        user_cart = Basket.objects.get(user=request.user.id)
         product = Product.objects.get(id=request.data['id'])
         item_change = ItemBasket.objects.filter(cart=user_cart.id).get(product=product.id)
 

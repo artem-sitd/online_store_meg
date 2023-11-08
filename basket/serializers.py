@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 from tags.models import Tags
 from product.models import Product, Reviews, ProductImage
-from basket.models import ItemBasket, TestBasket
+from basket.models import ItemBasket
 
 
 # для ProductSerializer

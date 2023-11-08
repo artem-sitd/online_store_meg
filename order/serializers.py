@@ -4,7 +4,7 @@ from product.models import Product
 from catalog.serializers import ProductSerializer
 from rest_framework import serializers
 from auth_custom.models import Profile
-from basket.models import ItemBasket, TestBasket
+from basket.models import ItemBasket, Basket
 
 
 # вроде нигде не используется удалить в конце
@@ -49,7 +49,7 @@ class OrderDetailSerialize(serializers.ModelSerializer):
 
     # Получение стоимости продуктов в заказе
     def get_totalCost(self, obj):
-        user_cart = TestBasket.objects.get(user=obj.user)
+        user_cart = Basket.objects.get(user=obj.user)
         items_cart = ItemBasket.objects.filter(cart=user_cart).values('product', 'basket_count')
         total = 0
         for i in items_cart:

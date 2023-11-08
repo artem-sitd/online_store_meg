@@ -10,7 +10,7 @@ from django.contrib.auth import logout, login, authenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from ast import literal_eval
-
+from basket.models import Basket
 
 # Профиль
 class ProfileApiView(RetrieveUpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
@@ -32,7 +32,6 @@ class ProfileApiView(RetrieveUpdateAPIView, LoginRequiredMixin, UserPassesTestMi
         profile.phone=phone
         profile.fullName=fullname
         profile.save()
-        print(profile)
         return Response(status=status.HTTP_200_OK)
 
 
@@ -43,8 +42,6 @@ class ChangePasswordApiView(APIView):
         if seriazlizer.is_valid(raise_exception=True):
             seriazlizer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
-
-        # Вот этот вот не работает
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 
@@ -74,6 +71,7 @@ class SignUpApiView(APIView):
             user.save()
             user = authenticate(username=username, password=password)
             Profile.objects.create(user=user, fullName=name)
+            Basket.objects.create(user=user)
             login(request, user)
             return Response('Success, registry ok, profile created', status=status.HTTP_200_OK)
         else:
@@ -83,7 +81,6 @@ class SignUpApiView(APIView):
 # Выход api/Sign-out
 class SignOutApiView(APIView):
     def post(self, request, format=None):
-        print(request.data)
         logout(request)
         return Response(status=status.HTTP_200_OK)
 

@@ -1,10 +1,10 @@
 from auth_custom.models import Profile
 from .models import Order
-from basket.models import TestBasket, ItemBasket
+from basket.models import Basket, ItemBasket
 from product.models import Product
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import OrderSerializer, OrdersListSerializer, OrderDetailSerialize
+from .serializers import OrderDetailSerialize
 
 
 # api/orders Предварительное оформление заказа
@@ -18,7 +18,7 @@ class OrdersApiView(APIView):
 
     # По нажатию на оформить заказ возвращает orderId. Сначала post, потом get
     def post(self, request):
-        user_cart = TestBasket.objects.get(user=request.user.id)  # Определение корзины юзера
+        user_cart = Basket.objects.get(user=request.user.id)  # Определение корзины юзера
         items_in_basket = ItemBasket.objects.filter(cart=user_cart.id)
         products_list = Product.objects.filter(id__in=items_in_basket.values_list('product', flat=True))
         data = Order.objects.create(user=request.user)
