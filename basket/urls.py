@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import BasketApi, BasketApi2, BasketApi3
+from .views import BasketApi
 
 
 
-urlpatterns = [path('basket/', BasketApi3.as_view()), #для get
-               path('basket', BasketApi3.as_view()), # для post
+urlpatterns = [path('basket/', BasketApi.as_view()), #для get
+               path('basket', BasketApi.as_view()), # для post
                ]
