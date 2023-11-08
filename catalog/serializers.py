@@ -3,10 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.validators import MaxValueValidator
 from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
-from rest_framework.relations import PrimaryKeyRelatedField
-from rest_framework_recursive.fields import RecursiveField
 from .models import Category, CategoryImage
-from product.models import Product, ProductImage, Reviews, Tags
+from product.models import Product, ProductImage, Reviews, Tags, Sales
 
 
 # CategorySerializer
@@ -16,7 +14,7 @@ class CategoryImageSerializer(serializers.ModelSerializer):
         fields = ('src', 'alt')
 
 
-# CategorySerializer (первый вариант реализации)
+# CategorySerializer
 class SubcategorySerialize(serializers.Field):
     def get_attribute(self, instance):
         sub = Category.objects.filter(parent=instance)
@@ -39,7 +37,6 @@ class SubcategorySerialize(serializers.Field):
 class CategorySerializer(serializers.ModelSerializer):
     image = CategoryImageSerializer()
     subcategories = SubcategorySerialize()
-#     subcategories = RecursiveField(many=True)
 
     class Meta:
         model = Category
@@ -88,3 +85,37 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_date(self, obj):
         temp = obj.date.astimezone(pytz.timezone('CET'))
         return temp.strftime('%a %b %d %Y %H:%M:%S') + ' GMT+0100 (Central European Standard Time)'
+
+
+class SalesSerialized(serializers.ModelSerializer):
+    id = serializers.SerializerMethodField()
+    price = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    salePrice = serializers.DecimalField(max_digits=8, decimal_places=2, coerce_to_string=False)
+    dateFrom = serializers.SerializerMethodField()
+    dateTo = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
+
+    def get_images(self, obj):
+        qs = ProductImage.objects.filter(product=obj.product)
+        images = list({'src': i.src.url, 'alt': i.alt} for i in qs)
+        return images
+
+    def get_dateTo(self, obj):
+        return obj.dateTo.strftime("%m-%d")
+
+    def get_dateFrom(self, obj):
+        return obj.dateFrom.strftime("%m-%d")
+
+    def get_id(self, obj):
+        return obj.product.id
+
+    def get_price(self, obj):
+        return obj.product.price
+
+    def get_title(self, obj):
+        return obj.product.title
+
+    class Meta:
+        model = Sales
+        fields = ('id', 'price', 'salePrice', 'dateFrom', 'dateTo', 'title', 'images')

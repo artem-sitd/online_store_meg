@@ -30,9 +30,6 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.title}, id={self.id}'
 
-    # def get_absolute_url(self):
-    #     return reverse('shop:products_detail', kwargs={'pk':self.pk})
-
 
 def product_path(instance: 'ProductImage', filename: str):
     return 'products/product_{pk}/images/{filename}'.format(pk=instance.product.pk, filename=filename)
@@ -67,3 +64,13 @@ class Reviews(models.Model):
 
     def __str__(self):
         return f'{self.product}, Author: {self.author}'
+
+
+class Sales(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    salePrice = models.DecimalField(default=0, max_digits=8, decimal_places=2)
+    dateFrom = models.DateTimeField()
+    dateTo = models.DateTimeField()
+
+    def __str__(self):
+        return f'{self.product}'

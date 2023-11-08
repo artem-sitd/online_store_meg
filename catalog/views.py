@@ -2,26 +2,20 @@ from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from .models import Category
-from .serializers import CategorySerializer, ProductSerializer
-from product.models import Product
+from .serializers import CategorySerializer, ProductSerializer, SalesSerialized
+from product.models import Product, Sales, Reviews
 from rest_framework.response import Response
-from rest_framework.request import Request
 import random
+from collections import Counter
 
-# api/categories (первый вариант)
+
+# api/categories
 class CategoryListApi(ListAPIView):
     serializer_class = CategorySerializer
 
     def get_queryset(self):
         parent = Category.objects.filter(parent_id=None)
         return parent
-
-
-# class CategoryListApi(APIView):
-#     def get(self, request:Request):
-#         q_data = Category.objects.filter(parent_id=None)
-#         serialized = CategorySerializer(q_data, many=True)
-#         return Response(data=serialized.data, status=200)
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -37,7 +31,6 @@ class StandardResultsSetPagination(PageNumberPagination):
         })
 
 
-# Все продукты с использованием сериализатора
 class ProductApiView(ListAPIView):
     pagination_class = StandardResultsSetPagination
     queryset = Product.objects.all().order_by('-id')
@@ -53,7 +46,21 @@ class LimitedProductsApiView(APIView):
 
 class BannersApiView(APIView):
     def get(self, request):
-        data=random.sample(list(Product.objects.all()), 3)
-        print(data)
-        serialized=ProductSerializer(data, many=True)
+        data = random.sample(list(Product.objects.all()), 3)
+        serialized = ProductSerializer(data, many=True)
+        return Response(serialized.data, status=200)
+
+
+class SalesApiView(ListAPIView):
+    pagination_class = StandardResultsSetPagination
+    queryset = Sales.objects.prefetch_related('product').all().order_by('-id')
+    serializer_class = SalesSerialized
+
+
+class PopularApiView(APIView):
+    # Выборка по количеству отзывов
+    def get(self, request):
+        data = Reviews.objects.prefetch_related('product').all().values_list('product', flat=True).order_by('id')
+        popular_list = list(i[0] for i in Counter(data).most_common(4))
+        serialized = ProductSerializer(Product.objects.filter(id__in=popular_list), many=True)
         return Response(serialized.data, status=200)
