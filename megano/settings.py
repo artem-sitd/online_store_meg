@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'auth_custom.apps.Auth_customConfig',
     'payment.apps.PaymentConfig',
     'django_extensions',
+    'drf_spectacular'
 
 ]
 
@@ -132,6 +133,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORKS = {
     'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -140,3 +142,7 @@ REST_FRAMEWORKS = {
 
     ]
 }
+SPECTACULAR_SETTINGS = {'TITLE': 'My Site Project API',
+                        'DESCRIPTION': 'My site with shop app and auth',
+                        'VERSION': '1.0.0',
+                        'SERVE_INCLUDE_SCHEMA': False}
