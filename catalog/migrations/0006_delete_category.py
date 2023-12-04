@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0014_remove_product_category_product_subcategory'),
-        ('catalog', '0005_remove_category_subcategories_subcategory_and_more'),
+        ("product", "0014_remove_product_category_product_subcategory"),
+        ("catalog", "0005_remove_category_subcategories_subcategory_and_more"),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='Category',
+            name="Category",
         ),
     ]

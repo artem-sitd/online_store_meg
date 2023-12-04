@@ -4,40 +4,53 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0001_initial'),
+        ("order", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='address',
+            model_name="order",
+            name="address",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
         migrations.AddField(
-            model_name='order',
-            name='city',
+            model_name="order",
+            name="city",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AddField(
-            model_name='order',
-            name='deliveryType',
-            field=models.CharField(blank=True, choices=[('free', 'free'), ('express', 'express')], default='free', max_length=15, null=True),
+            model_name="order",
+            name="deliveryType",
+            field=models.CharField(
+                blank=True,
+                choices=[("free", "free"), ("express", "express")],
+                default="free",
+                max_length=15,
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='paymentType',
-            field=models.CharField(blank=True, choices=[('online', 'online'), ('someone', 'someone')], default='online', max_length=15, null=True),
+            model_name="order",
+            name="paymentType",
+            field=models.CharField(
+                blank=True,
+                choices=[("online", "online"), ("someone", "someone")],
+                default="online",
+                max_length=15,
+                null=True,
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='status',
-            field=models.CharField(blank=True, default='accepted', max_length=15, null=True),
+            model_name="order",
+            name="status",
+            field=models.CharField(
+                blank=True, default="accepted", max_length=15, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='order',
-            name='totalCost',
+            model_name="order",
+            name="totalCost",
             field=models.DecimalField(decimal_places=2, default=0, max_digits=10),
         ),
     ]

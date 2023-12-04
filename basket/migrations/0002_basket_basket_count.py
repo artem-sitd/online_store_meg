@@ -5,15 +5,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('basket', '0001_initial'),
+        ("basket", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='basket',
-            name='basket_count',
-            field=models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0)]),
+            model_name="basket",
+            name="basket_count",
+            field=models.IntegerField(
+                default=0, validators=[django.core.validators.MinValueValidator(0)]
+            ),
         ),
     ]

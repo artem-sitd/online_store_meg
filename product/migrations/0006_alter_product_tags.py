@@ -4,16 +4,15 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('tags', '0001_initial'),
-        ('product', '0005_remove_product_tags_product_tags'),
+        ("tags", "0001_initial"),
+        ("product", "0005_remove_product_tags_product_tags"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='tags',
-            field=models.ManyToManyField(blank=True, to='tags.tags'),
+            model_name="product",
+            name="tags",
+            field=models.ManyToManyField(blank=True, to="tags.tags"),
         ),
     ]

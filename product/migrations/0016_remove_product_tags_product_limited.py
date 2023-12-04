@@ -4,19 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0015_remove_product_subcategory_product_category'),
+        ("product", "0015_remove_product_subcategory_product_category"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='tags',
+            model_name="product",
+            name="tags",
         ),
         migrations.AddField(
-            model_name='product',
-            name='limited',
+            model_name="product",
+            name="limited",
             field=models.BooleanField(default=False),
         ),
     ]

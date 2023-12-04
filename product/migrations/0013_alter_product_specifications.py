@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0012_alter_product_specifications'),
+        ("product", "0012_alter_product_specifications"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='specifications',
-            field=models.ManyToManyField(blank=True, null=True, related_name='specifications', to='product.specifications'),
+            model_name="product",
+            name="specifications",
+            field=models.ManyToManyField(
+                blank=True,
+                null=True,
+                related_name="specifications",
+                to="product.specifications",
+            ),
         ),
     ]

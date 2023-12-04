@@ -4,20 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('auth_custom', '0005_remove_profile_avatar_avatar_profile_and_more'),
+        ("auth_custom", "0005_remove_profile_avatar_avatar_profile_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='email',
-            field=models.EmailField(default='example@mail.com', max_length=50),
+            model_name="profile",
+            name="email",
+            field=models.EmailField(default="example@mail.com", max_length=50),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='phone',
-            field=models.CharField(blank=True, default='+0123456789', max_length=12, null=True),
+            model_name="profile",
+            name="phone",
+            field=models.CharField(
+                blank=True, default="+0123456789", max_length=12, null=True
+            ),
         ),
     ]
