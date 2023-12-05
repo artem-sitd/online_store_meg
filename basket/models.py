@@ -9,7 +9,7 @@ from product.models import Product
 class Basket(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __str__(self: 'object of class Basket') -> str:
         return f"{self.user}"
 
 
@@ -21,5 +21,5 @@ class ItemBasket(models.Model):
     )
     date = models.DateTimeField(auto_now=True, null=True, blank=True)
 
-    def __str__(self):
+    def __str__(self: 'object of class ItemBasket') -> str:
         return f"{self.cart} {self.product}"

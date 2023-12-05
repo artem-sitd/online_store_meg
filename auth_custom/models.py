@@ -16,7 +16,7 @@ class Profile(models.Model):
     )  # Телефон
     email = models.EmailField(max_length=50, default="example@mail.com")  # Почта
 
-    def __str__(self):
+    def __str__(self: 'object of class Profile') -> str:
         return f"User: {self.user}, Fullname: {self.fullName}"
 
 
@@ -27,5 +27,5 @@ class Avatar(models.Model):
     src = models.ImageField(null=True, blank=True, upload_to=avatar)
     alt = models.CharField(max_length=200, null=True, blank=True)
 
-    def __str__(self):
+    def __str__(self: 'object of class Avatar') -> str:
         return f"src:{self.src}" f"alt:{self.alt}"

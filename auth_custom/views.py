@@ -18,15 +18,20 @@ from .serializers import CheckPasswordSerialize, ProfileSerializer, SignUpSerial
 
 
 # Профиль
-class ProfileApiView(RetrieveUpdateAPIView, LoginRequiredMixin, UserPassesTestMixin):
+class ProfileApiView(APIView, LoginRequiredMixin, UserPassesTestMixin):
     permission_classes = [IsAuthenticated]
-    serializer_class = ProfileSerializer
 
     def test_func(self):
         return self.request.user.id == self.get_object().user.id
 
     def get_object(self):
         return get_object_or_404(Profile, user=self.request.user)
+
+    def get(self, request: Request) -> Response:
+        if request.user.id is None:
+            return Response(status=200)
+        serialized = ProfileSerializer(Profile.objects.get(user=request.user.id))
+        return Response(serialized.data, status=200)
 
     def post(self, request: Request) -> Response:
         profile = Profile.objects.get(user=request.user.id)
@@ -64,7 +69,10 @@ class ChangeAvatar(APIView):
 # Регистрация пользователя api/sign-up
 class SignUpApiView(APIView):
     def post(self, request: Request) -> Response:
-        data = json.loads(request.body)
+        data = None
+        for i in request.data.dict():
+            data = json.loads(i)
+        # data = json.loads(request.body)
         serializer = SignUpSerializer(data=data)
         if User.objects.filter(username=data.get("username", None)):
             return Response(
@@ -99,6 +107,7 @@ class SignOutApiView(APIView):
 # SIGN-IN вход в профиль
 class SignInApiView(APIView):
     def post(self, request, format=None) -> Response:
+
         username = literal_eval(request.body.decode("utf-8")).get("username", None)
         password = literal_eval(request.body.decode("utf-8")).get("password", None)
         user = authenticate(

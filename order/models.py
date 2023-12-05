@@ -35,5 +35,5 @@ class Order(models.Model):
         default=0, decimal_places=2, max_digits=10, blank=True, null=True
     )
 
-    def __str__(self):
+    def __str__(self:'object of class Order') -> str:
         return f"Order ID= {self.id}, User= {self.user}>>{self.products.all()}"

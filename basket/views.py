@@ -10,8 +10,10 @@ from .serializers import BasketApiSerialize
 
 class BasketApi(APIView):
     def get(self, request: Request) -> Response:
+        if request.user.id is None:
+            return Response(data={'AnonymousUser': 'AnonymousUser'}, status=200)
         user_cart = Basket.objects.get(
-            user=request.user
+            user=request.user.id
         )  # Определяем корзину с привязкой к юзеру
         qs = ItemBasket.objects.prefetch_related("product").filter(cart_id=user_cart.id)
         serialized2 = BasketApiSerialize(qs, many=True)
@@ -19,6 +21,9 @@ class BasketApi(APIView):
 
     # Добавление продукта
     def post(self, request: Request) -> Response:
+        if request.user == 'AnonymousUser':
+            return Response(data={'AnonymousUser': 'AnonymousUser'}, status=200)
+
         user_cart = Basket.objects.get(user=request.user.id)
         product = Product.objects.get(id=request.data["id"])
         items_in_basket = ItemBasket.objects.prefetch_related("product").filter(
@@ -39,6 +44,8 @@ class BasketApi(APIView):
 
     # Удаление продукта из корзины
     def delete(self, request: Request) -> Response:
+        if request.user.id is None:
+            return Response(data={'AnonymousUser': 'AnonymousUser'}, status=200)
         user_cart = Basket.objects.get(user=request.user.id)
         product = Product.objects.get(id=request.data["id"])
         item_change = ItemBasket.objects.filter(cart=user_cart.id).get(

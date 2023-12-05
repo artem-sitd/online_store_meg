@@ -11,7 +11,7 @@ class Specifications(models.Model):
     name = models.CharField(max_length=30)
     value = models.CharField(max_length=30)
 
-    def __str__(self):
+    def __str__(self: 'object of class Specifications') -> str:
         return f"{self.name}:{self.value}"
 
 
@@ -47,7 +47,7 @@ class Product(models.Model):
     tags = (models.ManyToManyField(Tags, blank=True),)
     limited = models.BooleanField(default=False)
 
-    def __str__(self):
+    def __str__(self: 'object of class Product') -> str:
         return f"{self.title}, id={self.id}"
 
 
@@ -64,7 +64,7 @@ class ProductImage(models.Model):
     src = models.ImageField(upload_to=product_path)
     alt = models.CharField(max_length=200, null=False, blank=True)
 
-    def __str__(self):
+    def __str__(self: 'object of class ProductImage') -> str:
         return f"Images: {self.product}"
 
 
@@ -81,7 +81,7 @@ class Reviews(models.Model):
         Product, on_delete=models.CASCADE, blank=True, null=True, related_name="reviews"
     )
 
-    def __str__(self):
+    def __str__(self: 'object of class Reviews') -> str:
         return f"{self.product}, Author: {self.author}"
 
 
@@ -91,5 +91,5 @@ class Sales(models.Model):
     dateFrom = models.DateTimeField()
     dateTo = models.DateTimeField()
 
-    def __str__(self):
+    def __str__(self: 'object of class Sales') -> str:
         return f"{self.product}"
