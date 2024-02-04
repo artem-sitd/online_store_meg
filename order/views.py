@@ -18,7 +18,7 @@ class OrdersApiView(APIView):
         serialized = OrderDetailSerialize(data, many=True)
         return Response(data=serialized.data, status=200)
 
-    # По нажатию на оформить заказ возвращает orderId. Сначала post, потом get
+    # По нажатию оформить заказ возвращает orderId. Сначала post, потом get
     def post(self, request: Request) -> Response:
         user_cart = Basket.objects.get(
             user=request.user.id
