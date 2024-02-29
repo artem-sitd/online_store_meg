@@ -107,8 +107,8 @@ class ProductSerializer(serializers.ModelSerializer):
     def get_date(self, obj: Product) -> str:
         temp = obj.date.astimezone(pytz.timezone("CET"))
         return (
-            temp.strftime("%a %b %d %Y %H:%M:%S")
-            + " GMT+0100 (Central European Standard Time)"
+                temp.strftime("%a %b %d %Y %H:%M:%S")
+                + " GMT+0100 (Central European Standard Time)"
         )
 
 
