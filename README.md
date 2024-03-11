@@ -54,3 +54,48 @@
 | 23 | /api/sign-out/           | POST   |
 | 24 | /api/sigtn-up/           | POST   |
 | 25 | /api/tags/               | GET    |
+
+## Скриншоты
+--------
+### Стартовая страница
+![image](https://github.com/artem-sitd/megano/assets/22573129/f3c2606f-630a-40ac-aca9-ea8a995cc7e4)
+![image](https://github.com/artem-sitd/megano/assets/22573129/508904f6-0218-4ae8-bd5d-057e287f8819)
+
+### Каталог:
+![image](https://github.com/artem-sitd/megano/assets/22573129/13da86c9-1228-401e-97ac-26c1ef895887)
+
+### Странциа Sale
+![image](https://github.com/artem-sitd/megano/assets/22573129/246aba9a-24df-4b9e-9b80-6710dae2b3c5)
+
+### Регистрация
+![image](https://github.com/artem-sitd/megano/assets/22573129/456679c6-9b03-4c13-9055-05593f628ce9)
+![image](https://github.com/artem-sitd/megano/assets/22573129/b00b635a-3401-4f5a-a93b-c4b8496c523f)
+
+### Личный кабинет
+![image](https://github.com/artem-sitd/megano/assets/22573129/a01ac693-5d77-4c1d-a655-36a1435b895a)
+
+
+### Корзина
+![image](https://github.com/artem-sitd/megano/assets/22573129/93d87b1a-bfc3-44de-ae54-1f8f653edf2c)
+
+### Оформление заказа
+![image](https://github.com/artem-sitd/megano/assets/22573129/7bf0f7d9-ad06-4e5d-b62f-10f253e0d567)
+![image](https://github.com/artem-sitd/megano/assets/22573129/924af5dc-fd29-4d9d-b1d3-f439a5a747f4)
+![image](https://github.com/artem-sitd/megano/assets/22573129/0f2daac8-8fd3-4207-82d5-4c56338046ad)
+![image](https://github.com/artem-sitd/megano/assets/22573129/328ccff3-c5da-423d-9374-b85644f33008)
+![image](https://github.com/artem-sitd/megano/assets/22573129/7d48a3d3-1000-4dcc-ae6b-d4a05af7ba57)
+![image](https://github.com/artem-sitd/megano/assets/22573129/e854d09e-0125-4dd4-af1f-61418a1c1bdd)
+![image](https://github.com/artem-sitd/megano/assets/22573129/490988f6-0ff7-46b8-b357-43a845dee5aa)
+
+
+### История заказов
+![image](https://github.com/artem-sitd/megano/assets/22573129/6bf1b157-052e-4df5-8818-c82111dca3a2)
+
+
+### Карточка товара
+![image](https://github.com/artem-sitd/megano/assets/22573129/ecae990b-bbfd-4620-9f96-52e32cd4d1e5)
+![image](https://github.com/artem-sitd/megano/assets/22573129/76b28f9c-e24a-4bd4-a6a4-6d0100bafa11)
+
+### Отзывы
+![image](https://github.com/artem-sitd/megano/assets/22573129/71984536-5d18-47f2-a96e-960ce9e4e02b)
+
