@@ -55,7 +55,7 @@ class ChangePasswordApiView(APIView):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 
-# смена аватарки (арботает только если аватар не установлен)
+# смена аватарки (работает только если аватар не установлен)
 class ChangeAvatar(APIView):
     def post(self, request: Request) -> Response:
         new_avatar = request.FILES["avatar"]

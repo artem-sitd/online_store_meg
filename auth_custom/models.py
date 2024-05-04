@@ -4,7 +4,7 @@ from django.db import models
 
 # Путь хранения аватара пользователя
 def avatar(instance: "Profile", filename) -> str:
-    return "avatars/avatar_{pk}/{filename}".format(pk=instance.pk, filename=filename)
+    return "avatars/avatar_user_pk_{pk}/{filename}".format(pk=instance.profile.user.pk, filename=filename)
 
 
 # Профиль пользователя
