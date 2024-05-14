@@ -72,7 +72,6 @@ class SignUpApiView(APIView):
         data = None
         for i in request.data.dict():
             data = json.loads(i)
-        # data = json.loads(request.body)
         serializer = SignUpSerializer(data=data)
         if User.objects.filter(username=data.get("username", None)):
             return Response(

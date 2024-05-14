@@ -1,7 +1,7 @@
 ## Интернет магазин Megano.
 
-<b>Проект выполнялся в рамках дипломной работы с использованием Django Rest Framework, при 
-уже существующем Frontend (javascript, html, css), а также с Swagger.
+<b>Проект выполнялся  с использованием Django Rest Framework, при 
+уже существующих Frontend (javascript, html, css), Swagger.
 Реализация включала в себя полное соответствие выводам эндпойнтов swagger.
 Используемая БД - стандартная DJANGO sqlite3.</b>
 * Swagger.yaml находится в каталоге `diploma-frontend/swagger/swagger.yaml`
